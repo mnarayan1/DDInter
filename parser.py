@@ -1,19 +1,24 @@
-import csv
+import glob
+import pandas as pd
 import os
 
 
 def load_data(data_folder):
-    with open(os.path.join(data_folder, 'ddinter_downloads_code_A.csv'), 'r') as f:
-        original_data = csv.reader(f)
 
-    print(original_data)
+    # merging the files
+    joined_files = os.path.join(data_folder, "ddinter_downloads_code_*.csv")
 
-    for row in original_data:
-        DDInterID_A = row[0]
-        Drug_A = row[1]
-        DDInterID_B = row[2]
-        Drug_B = row[3]
-        Level = row[4]
+    # A list of all joined files is returned
+    joined_list = glob.glob(joined_files)
+
+    df = pd.concat(map(pd.read_csv, joined_list), ignore_index=True)
+
+    for index in df.index:
+        DDInterID_A = df['DDInterID_A'][index]
+        Drug_A = df['Drug_A'][index]
+        DDInterID_B = df['DDInterID_B'][index]
+        Drug_B = df['Drug_B'][index]
+        Level = df['Level'][index]
 
         doc = {}
         doc['_id'] = DDInterID_A+'_'+DDInterID_B+'_'+Level
@@ -22,8 +27,3 @@ def load_data(data_folder):
         doc['level'] = Level
 
         yield doc
-
-
-test_data = load_data('data')
-
-print(test_data)
