@@ -1,0 +1,15 @@
+{
+    "version": "0.2",
+    "__metadata__": {
+        "url": "http://ddinter.scbdd.com/"
+    },
+    "dumper" : {
+        "data_url" : ["http://ddinter.scbdd.com/download/"],
+        "uncompress" : false,
+        "release": "version:get_release"
+    },
+    "uploader" : {
+        "parser" : "parser:load_data",
+        "on_duplicates": "error"
+    }
+}
