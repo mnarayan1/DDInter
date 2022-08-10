@@ -32,7 +32,7 @@ def load_data(data_folder):
             doc['level'] = level
 
             doc['drug_a'] = {
-                'ddinterid_a': drug_a_id,
+                'ddinter': drug_a_id,
                 'name': drug_a_name,
             }
 
@@ -42,7 +42,7 @@ def load_data(data_folder):
                     doc['drug_a'][characteristic] = info
 
             doc['drug_b'] = {
-                'ddinterid_b': drug_b_id,
+                'ddinter': drug_b_id,
                 'name': drug_b_name,
             }
 
