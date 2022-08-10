@@ -33,7 +33,7 @@ def load_data(data_folder):
             doc = {}
             doc['_id'] = id
             doc['drug_a'] = {
-                'ddinterid_a': DDInterID_A,
+                'ddinterid': DDInterID_A,
                 'name': Drug_A,
             }
 
@@ -43,7 +43,7 @@ def load_data(data_folder):
                     doc['drug_a'][characteristic] = info
 
             doc['drug_b'] = {
-                'ddinterid_b': DDInterID_B,
+                'ddinterid': DDInterID_B,
                 'name': Drug_B,
             }
 
