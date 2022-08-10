@@ -1,7 +1,9 @@
 {
     "version": "0.2",
     "__metadata__": {
-        "url": "http://ddinter.scbdd.com/"
+        "url": "http://ddinter.scbdd.com/",
+        "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "license": "CC BY-NC-SA 4.0"
     },
     "dumper" : {
         "data_url" : [
