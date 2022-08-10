@@ -5,50 +5,48 @@ import json
 
 
 def load_data(data_folder):
-    ddinter_filepath = os.path.join(data_folder, "ddinter_downloads_code_*.csv")
-    ddinter_blob = glob.glob(ddinter_filepath)
-    ddinter_df = pd.concat(map(pd.read_csv, ddinter_blob), ignore_index=True)
+    csv_files = os.path.join(data_folder, "ddinter_downloads_code_*.csv")
+    joined_csv_files = glob.glob(csv_files)
+    merged_csv = pd.concat(
+        map(pd.read_csv, joined_csv_files), ignore_index=True)
 
     # load file with scraped data
-    drug_filepath = os.path.join(data_folder, 'drug_data.json')
-    with open(drug_filepath) as f:
-        drug_data = json.load(f)['records']
+    drug_info = os.path.join(data_folder, 'drug_data.json')
+    drug_data = json.load(drug_info)['records']
 
-        drug_characteristics = ['chembl', 'pubchem', 'drugbank']
+    drug_characteristics = ['chembl', 'pubchem', 'drugbank']
 
-        for index in ddinter_df.index:
-            level = ddinter_df['Level'][index]
+    for index in merged_csv.index:
+        DDInterID_A = merged_csv['DDInterID_A'][index]
+        Drug_A = merged_csv['Drug_A'][index]
+        DDInterID_A_index = int(DDInterID_A.split('DDInter')[-1])
+        DDInterID_B = merged_csv['DDInterID_B'][index]
+        Drug_B = merged_csv['Drug_B'][index]
+        DDInterID_B_index = int(DDInterID_B.split('DDInter')[-1])
+        Level = merged_csv['Level'][index]
 
-            drug_a_id = ddinter_df['DDInterID_A'][index]
-            drug_a_name = ddinter_df['Drug_A'][index]
-            drug_a_index = int(drug_a_id.split('DDInter')[-1])
+        doc = {}
+        doc['_id'] = DDInterID_A+'_'+DDInterID_B+'_'+Level
+        doc['drug_a'] = {
+            'ddinterid_a': DDInterID_A,
+            'name': Drug_A,
+        }
 
-            drug_b_id = ddinter_df['DDInterID_B'][index]
-            drug_b_name = ddinter_df['Drug_B'][index]
-            drug_b_index = int(drug_b_id.split('DDInter')[-1])
+        for characteristic in drug_characteristics:
+            info = drug_data[DDInterID_A_index-1][characteristic]
+            if len(info) > 0:
+                doc['drug_a'][characteristic] = info
 
-            doc = {}
-            doc['_id'] = drug_a_id + '_' + drug_b_id + '_' + level
-            doc['level'] = level
+        doc['drug_b'] = {
+            'ddinterid_b': DDInterID_B,
+            'name': Drug_B,
+        }
 
-            doc['drug_a'] = {
-                'ddinterid_a': drug_a_id,
-                'name': drug_a_name,
-            }
+        for characteristic in drug_characteristics:
+            info = drug_data[DDInterID_B_index-1][characteristic]
+            if len(info) > 0:
+                doc['drug_b'][characteristic] = info
 
-            for characteristic in drug_characteristics:
-                info = drug_data[drug_a_index-1][characteristic]
-                if len(info) > 0:
-                    doc['drug_a'][characteristic] = info
+        doc['level'] = Level
 
-            doc['drug_b'] = {
-                'ddinterid_b': drug_b_id,
-                'name': drug_b_name,
-            }
-
-            for characteristic in drug_characteristics:
-                info = drug_data[drug_b_index-1][characteristic]
-                if len(info) > 0:
-                    doc['drug_b'][characteristic] = info
-
-            yield doc
+        yield doc
