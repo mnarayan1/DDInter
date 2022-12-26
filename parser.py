@@ -2,9 +2,23 @@ import glob
 import pandas as pd
 import os
 import json
+import urllib.request
+from string import ascii_uppercase as alc
 
 
 def load_data(data_folder):
+    # download all DDInter csv files
+    print("getting records")
+    for i in alc:
+        try:
+            file = f"ddinter_downloads_code_{i}.csv"
+            url = f"http://ddinter.scbdd.com/static/media/download/{file}"
+            filepath = os.path.join(data_folder, file)
+            urllib.request.urlretrieve(url, filepath)
+        except Exception:
+            pass
+
+    # merge DDInter records from all csv files into one csv
     csv_files = os.path.join(data_folder, "ddinter_downloads_code_*.csv")
     joined_csv_files = glob.glob(csv_files)
     merged_csv = pd.concat(
@@ -55,7 +69,13 @@ def load_data(data_folder):
             doc['level'] = Level
 
             ids.append(id)
-
+            print(doc)
             yield doc
         else:
             continue
+
+
+records = load_data('./test')
+
+for record in records:
+    print(record)
