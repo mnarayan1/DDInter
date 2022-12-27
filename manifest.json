@@ -1,10 +1,22 @@
 {
     "version": "0.2",
     "__metadata__": {
-        "url": "http://ddinter.scbdd.com/"
+        "url": "http://ddinter.scbdd.com/",
+        "license_url": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
+        "license": "CC BY-NC-SA 4.0"
     },
     "dumper" : {
-        "data_url" : ["http://ddinter.scbdd.com/download/"],
+        "data_url" : [
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_A.csv",
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_B.csv",
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_D.csv",
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_H.csv",
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_L.csv",
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_P.csv",
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_R.csv",
+            "http://ddinter.scbdd.com/static/media/download/ddinter_downloads_code_V.csv",
+            "http://localhost:8080/dataupload/mysrc/drug_data.json"
+        ],
         "uncompress" : false,
         "release": "version:get_release"
     },
