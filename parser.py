@@ -8,7 +8,6 @@ from string import ascii_uppercase as alc
 
 def load_data(data_folder):
     # download all DDInter csv files
-    print("getting records")
     for i in alc:
         try:
             file = f"ddinter_downloads_code_{i}.csv"
@@ -69,13 +68,6 @@ def load_data(data_folder):
             doc['level'] = Level
 
             ids.append(id)
-            print(doc)
             yield doc
         else:
             continue
-
-
-records = load_data('./test')
-
-for record in records:
-    print(record)
